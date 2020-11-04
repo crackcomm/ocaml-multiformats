@@ -1,0 +1,4 @@
+(library
+ (name varint)
+ (public_name ipfn.varint)
+ (libraries stdint core_kernel))

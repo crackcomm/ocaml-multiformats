@@ -1,0 +1,4 @@
+Files: base32.ml
+Source: https://github.com/chriskmanx/qmole/blob/0c14fa363f174b38a6ec5c6f5ffc75960add7c05/QMOLEDEV/typerex-1.0.1/libs/ocamlpro/digest/base32.ml
+Copyright: 2011-2020, OCamlPro
+License: GPL-3.0-only

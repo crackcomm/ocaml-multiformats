@@ -1,0 +1,5 @@
+(library
+ (name maddr)
+ (public_name ipfn.maddr)
+ (libraries base)
+ (preprocess no_preprocessing))

@@ -1,0 +1,4 @@
+Files: varint.ml
+Source: https://github.com/xnukernpoll/ocaml-varint/blob/73281424d8a6fea1d96b4c66561111c9cf1ef964/src/varint.ml
+Copyright: 2018, Sam Riyad
+License: MIT

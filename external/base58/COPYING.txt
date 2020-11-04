@@ -1,0 +1,4 @@
+Files: b58.ml, b58.mli, alphabet.ml
+Source: https://github.com/MinaProtocol/mina/tree/16ea0a875651416b6897efeb05cc9ce18aae87a0/src/external/coda_base58
+Copyright: 2016-2020, Maxime Ransan <maxime.ransan@gmail.com>
+License: MIT

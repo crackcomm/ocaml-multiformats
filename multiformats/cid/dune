@@ -1,0 +1,6 @@
+(library
+ (name cid)
+ (public_name ipfn.cid)
+ (libraries core_kernel ipfn.mbase ipfn.mcodec ipfn.mhash ipfn.varint)
+ (preprocess
+  (pps ppx_deriving.eq ppx_deriving.show)))

@@ -1,0 +1,3 @@
+(tests
+ (names b58_test)
+ (libraries alcotest ipfn.base58))

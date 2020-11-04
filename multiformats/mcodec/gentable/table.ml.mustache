@@ -1,0 +1,43 @@
+
+(** Tag of multicodec. *)
+type tag =
+{{#tags}}
+  | {{symbol}}
+{{/tags}}
+
+(** Multicodec type. *)
+type t =
+{{#data}}
+  | {{name}}
+{{/data}}
+
+(** [code_of codec] Returns integer code of codec [t]. *)
+let code_of = function
+{{#data}}
+  | {{name}} -> {{code}}
+{{/data}}
+;;
+
+(** [of_code code] Returns codec [t] from integer [code]. *)
+let of_code = function
+{{#data}}
+  | {{code}} -> Some {{name}}
+{{/data}}
+  | _ -> None
+;;
+
+(** [tag_of codec] Returns [tag] of codec [t]. *)
+let tag_of : t -> tag = function
+{{#data}}
+  | {{name}} -> {{tag}}
+{{/data}}
+;;
+
+{{#tags}}
+(** [is_{{tag}} codec] Returns `true` if codec [t] is of tag [{{symbol}}]. *)
+let is_{{tag}} = function
+  | {{symbol}} -> true
+  | _ -> false
+;;
+
+{{/tags}}

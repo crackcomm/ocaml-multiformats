@@ -1,0 +1,3 @@
+(tests
+ (names maddr_test)
+ (libraries alcotest ipfn.maddr))
