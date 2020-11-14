@@ -1,4 +1,4 @@
 (library
  (name b32)
- (public_name ipfn.base32)
+ (public_name multiformats.base32)
  (libraries core_kernel))

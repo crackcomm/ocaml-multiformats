@@ -2,7 +2,22 @@
    SPDX-License-Identifier: MIT *)
 
 open Core
+open Cohttp_lwt
+open Cohttp_lwt_unix
 open Lwt.Infix
+
+(** Simple client that reads body as [string]. *)
+module Http = struct
+  (** Unpacks response status to a [result]. Ok only on `200` status code. *)
+  let handle (resp, body) =
+    match resp |> Response.status |> Cohttp.Code.code_of_status with
+    | 200 -> Body.to_string body >|= fun body -> Ok body
+    | err -> Lwt.return (Error err)
+  ;;
+
+  (** Make a `GET` call and return the body as string. *)
+  let get uri = uri |> Uri.of_string |> Client.get >>= handle
+end
 
 let table_url =
   "https://raw.githubusercontent.com/multiformats/multicodec/master/table.csv"
@@ -98,7 +113,8 @@ let tmpl =
 ;;
 
 let main () =
-  Hc.S.get table_url
+  let open Lwt_result.Infix in
+  Http.get table_url
   >|= Csv.of_string ~has_header:true
   >|= Csv.input_all
   >|= fun data ->
@@ -115,6 +131,14 @@ let main () =
     |> String.substr_replace_all ~pattern:"&apos;" ~with_:"\'"
   in
   Out_channel.write_all ~data "works/multiformats/mcodec/table.ml"
+;;
+
+let main () =
+  main ()
+  >|= fun err ->
+  match err with
+  | Ok _ -> ()
+  | Error status -> failwith (Printf.sprintf "status: %d" status)
 ;;
 
 let () = Lwt_main.run (main ())

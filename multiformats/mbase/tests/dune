@@ -1,3 +1,3 @@
 (tests
  (names mbase_test)
- (libraries alcotest base ipfn.mbase))
+ (libraries alcotest base multiformats.mbase))

@@ -1,3 +1,3 @@
 (tests
  (names varint_test)
- (libraries stdint core_kernel alcotest ipfn.varint ipfn.base32))
+ (libraries stdint core_kernel alcotest multiformats.varint multiformats.base32))

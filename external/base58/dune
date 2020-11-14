@@ -1,4 +1,4 @@
 (library
  (name b58)
- (public_name ipfn.base58)
+ (public_name multiformats.base58)
  (libraries core_kernel))

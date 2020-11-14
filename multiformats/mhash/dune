@@ -1,6 +1,6 @@
 (library
  (name mhash)
- (public_name ipfn.mhash)
- (libraries core_kernel digestif ipfn.mcodec)
+ (public_name multiformats.mhash)
+ (libraries core_kernel digestif multiformats.mcodec)
  (preprocess
   (pps ppx_deriving.eq ppx_deriving.show)))

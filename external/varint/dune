@@ -1,4 +1,4 @@
 (library
  (name varint)
- (public_name ipfn.varint)
+ (public_name multiformats.varint)
  (libraries stdint core_kernel))
