@@ -15,13 +15,11 @@
  (description "Self-describing protocols implementation")
  (depends
   (alcotest :with-test)
-  (core
-   (>= 0.9.3))
-  (ipaddr
-   (>= 5.0))
-  (ppx_deriving
-   (>= 5.1))
+  (stdint
+    (>= 0.7.0))
+  (core_kernel
+    (>= 0.14.2))
   (digestif
-   (>= 0.9.0))
+    (>= 1.1.0))
   (ppx_deriving
-   (>= 5.1))))
+    (>= 5.1))))

@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "ocaml": "4.12.1",
+    "@opam/dune": "*",
+    "@opam/stdint": "0.7.0",
+    "@opam/digestif": "1.1.0",
+    "@opam/ppx_deriving": "*",
+    "@opam/core_kernel": "v0.14.2"
+  },
+  "resolutions": {
+    "ocaml": "crackcomm/ocaml#bc0cb4d"
+  },
+  "devDependencies": {
+    "@opam/lwt": "*",
+    "@opam/csv-lwt": "*",
+    "@opam/cohttp-lwt-unix": "*",
+    "@opam/mustache": "*",
+    "@opam/alcotest": "*",
+    "@opam/ocamlformat": "*",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#9b70079"
+  }
+}

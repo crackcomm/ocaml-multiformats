@@ -1,7 +1,7 @@
 (* Copyright © 2020 Łukasz Kurowski. All rights reserved.
    SPDX-License-Identifier: MIT *)
 
-open Core
+open Core_kernel
 open Cohttp_lwt
 open Cohttp_lwt_unix
 open Lwt.Infix
