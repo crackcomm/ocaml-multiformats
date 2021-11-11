@@ -14,6 +14,8 @@ type t =
   | Blake2b'512
   | Blake2s'256
   | Ripemd'160 (** RMD160 *)
+  | Keccak'256
+[@@deriving sexp]
 
 (** [of_codec kind] Returns hash kind of multicodec. *)
 let of_codec : Mcodec.t -> t option = function
@@ -28,6 +30,7 @@ let of_codec : Mcodec.t -> t option = function
   | Blake2b'512 -> Some Blake2b'512
   | Blake2s'256 -> Some Blake2s'256
   | Ripemd'160 -> Some Ripemd'160
+  | Keccak'256 -> Some Keccak'256
   | _ -> None
 ;;
 
@@ -44,4 +47,5 @@ let to_codec : t -> Mcodec.t = function
   | Blake2b'512 -> Blake2b'512
   | Blake2s'256 -> Blake2s'256
   | Ripemd'160 -> Ripemd'160
+  | Keccak'256 -> Keccak'256
 ;;

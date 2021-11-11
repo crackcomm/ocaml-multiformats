@@ -1,5 +1,7 @@
 (lang dune 2.7)
 
+(name multiformats)
+
 (formatting
  (enabled_for ocaml))
 

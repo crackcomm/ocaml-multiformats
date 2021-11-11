@@ -42,30 +42,32 @@ let parse_cidv1 body =
 
 (** [of_bigstring cid] Parse [cid] from multibase-encoded [Bigstring.t]. *)
 let of_bigstring cid =
-  let open Mbase in
-  decode_info cid
-  |> Result.of_option ~error:`Multibase_not_found
-  >>= fun (base, body) ->
-  match base with
-  | B.Base58btc -> parse_cidv0 body
-  | _ -> parse_cidv1 body
+  match Bigstring.length cid with
+  | 0 -> Error `Empty_string
+  | _ ->
+    (match Bigstring.get cid 0 with
+    | 'Q' -> Mbase.decode cid >>= parse_cidv0
+    | _ -> Mbase.decode cid >>= parse_cidv1)
 ;;
 
 (** [of_string cid] Parse [cid] from multibase-encoded [string]. *)
 let of_string cid = Bigstring.of_string cid |> of_bigstring
 
 (** [encode cid] Encodes [cid] as multibase-encoded [Bigstring.t]. *)
-let encode cid =
-  let encode =
-    match cid.ver with
-    | V0 -> Mbase.encode ~base:Mbase.B.Base58btc
-    | V1 -> Mbase.encode ~base:Mbase.B.Base32
+let encode ?base cid =
+  let base, v0 =
+    match base with
+    | Some base -> base, false
+    | None ->
+      (match cid.ver with
+      | V0 -> Mbase.B.Base58btc, true
+      | V1 -> Mbase.B.Base32, false)
   in
-  encode cid.bin
+  Mbase.encode ~v0 ~base cid.bin
 ;;
 
 (** [to_string cid] Encodes [cid] as multibase-encoded [string]. *)
-let to_string cid = Bigstring.to_string (encode cid)
+let to_string ?base cid = Bigstring.to_string (encode ?base cid)
 
 (** [is_v0 cid] Returns [true] if [cid] is version 0. *)
 let is_v0 cid =

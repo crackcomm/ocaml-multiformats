@@ -19,6 +19,6 @@ let parse mhash =
   Mcodec.parse mhash
   >>= fun (codec, hash) ->
   Kind.of_codec codec
-  |> Result.of_option ~error:`Codec_not_hash
+  |> Result.of_option ~error:(`Codec_not_hash codec)
   >>| fun kind -> { kind; hash; mhash }
 ;;
