@@ -55,15 +55,10 @@ let of_string cid = Bigstring.of_string cid |> of_bigstring
 
 (** [encode cid] Encodes [cid] as multibase-encoded [Bigstring.t]. *)
 let encode ?base cid =
-  let base, v0 =
-    match base with
-    | Some base -> base, false
-    | None ->
-      (match cid.ver with
-      | V0 -> Mbase.B.Base58btc, true
-      | V1 -> Mbase.B.Base32, false)
-  in
-  Mbase.encode ~v0 ~base cid.bin
+  match base, cid.ver with
+  | None, V0 -> Mbase.encoder Mbase.B.Base58btc cid.bin
+  | None, V1 -> Mbase.encode ~base:Mbase.B.Base32 cid.bin
+  | Some base, _ -> Mbase.encode ~base cid.bin
 ;;
 
 (** [to_string cid] Encodes [cid] as multibase-encoded [string]. *)

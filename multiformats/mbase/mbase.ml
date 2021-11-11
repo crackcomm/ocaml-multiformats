@@ -26,15 +26,12 @@ module B = struct
     | Base58btc -> 'z'
   ;;
 
-  let append_prefix ?(v0 = false) ~base value =
-    match base, v0 with
-    | Base58btc, true -> value
-    | _ ->
-      let len = Bigstring.length value in
-      let output = Bigbuffer.create (len + 1) in
-      Bigbuffer.add_char output (prefix_of base);
-      Bigbuffer.add_bigstring output value;
-      Bigbuffer.big_contents output
+  let append_prefix ~base value =
+    let len = Bigstring.length value in
+    let output = Bigbuffer.create (len + 1) in
+    Bigbuffer.add_char output (prefix_of base);
+    Bigbuffer.add_bigstring output value;
+    Bigbuffer.big_contents output
   ;;
 
   let sub_prefix ?code ~base value =
@@ -54,11 +51,8 @@ let encoder = function
   | Base58btc -> B58.encode B58.btc_alphabet
 ;;
 
-(** [encode ~base value] Encodes bytes with multibase prefix. If [v0] is true
-    and [base] is [Base58btc] it doesn't append any prefix. *)
-let encode ?(v0 = false) ~base value =
-  value |> encoder base |> B.append_prefix ~v0 ~base
-;;
+(** [encode ~base value] Encodes bytes with multibase prefix. *)
+let encode ~base value = value |> encoder base |> B.append_prefix ~base
 
 let decode value base = value |> decoder base
 
