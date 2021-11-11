@@ -45,9 +45,11 @@ let of_bigstring cid =
   match Bigstring.length cid with
   | 0 -> Error `Empty_string
   | _ ->
+    Mbase.decode cid
+    >>=
     (match Bigstring.get cid 0 with
-    | 'Q' -> Mbase.decode cid >>= parse_cidv0
-    | _ -> Mbase.decode cid >>= parse_cidv1)
+    | 'Q' -> parse_cidv0
+    | _ -> parse_cidv1)
 ;;
 
 (** [of_string cid] Parse [cid] from multibase-encoded [string]. *)
