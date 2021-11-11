@@ -4,6 +4,7 @@ type tag =
 {{#tags}}
   | {{symbol}}
 {{/tags}}
+  | Unknown
 
 (** Multicodec type. *)
 type t =
@@ -13,6 +14,7 @@ type t =
 
 (** [code_of codec] Returns integer code of codec [t]. *)
 let code_of = function
+  | Other code -> code
 {{#data}}
   | {{name}} -> {{code}}
 {{/data}}
@@ -21,13 +23,14 @@ let code_of = function
 (** [of_code code] Returns codec [t] from integer [code]. *)
 let of_code = function
 {{#data}}
-  | {{code}} -> Some {{name}}
+  | {{code}} -> {{name}}
 {{/data}}
-  | _ -> None
+  | code -> Other code
 ;;
 
 (** [tag_of codec] Returns [tag] of codec [t]. *)
 let tag_of : t -> tag = function
+  | Other _ -> Unknown
 {{#data}}
   | {{name}} -> {{tag}}
 {{/data}}

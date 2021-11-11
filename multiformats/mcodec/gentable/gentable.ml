@@ -92,7 +92,8 @@ let map_entry entry =
     | 0 -> "name"
     | 1 -> "tag"
     | 2 -> "code"
-    | 3 -> "desc"
+    | 3 -> "status"
+    | 4 -> "desc"
     | _ -> failwith "Column out of bounds"
   in
   let value i value =
@@ -108,8 +109,7 @@ let map_entry entry =
 
 let tmpl =
   Mustache.of_string
-    (In_channel.read_all
-       "works/multiformats/mcodec/gentable/table.ml.mustache")
+    (In_channel.read_all "multiformats/mcodec/gentable/table.ml.mustache")
 ;;
 
 let main () =
@@ -130,7 +130,7 @@ let main () =
     Mustache.render tmpl (`O [ "data", `A data; "tags", `A tags ])
     |> String.substr_replace_all ~pattern:"&apos;" ~with_:"\'"
   in
-  Out_channel.write_all ~data "works/multiformats/mcodec/table.ml"
+  Out_channel.write_all ~data "multiformats/mcodec/table.ml"
 ;;
 
 let main () =

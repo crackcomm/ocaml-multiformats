@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@opam/lwt": "*",
+    "@opam/lwt_ssl": "*",
     "@opam/csv-lwt": "*",
     "@opam/cohttp-lwt-unix": "*",
     "@opam/mustache": "*",
