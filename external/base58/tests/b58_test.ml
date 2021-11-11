@@ -3,18 +3,13 @@
 
 open Core_kernel
 
-let b58_btc =
-  B58.make_alphabet
-    "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-;;
-
 let encode_decode () =
   let input = "QmamnuntjR1Jmh8DZy3uMceJjpdqpE1Mx7W2KUisZr2A66" in
   let encoded =
     input
     |> Bigstring.of_string
-    |> B58.decode b58_btc
-    |> B58.encode b58_btc
+    |> B58.decode B58.btc_alphabet
+    |> B58.encode B58.btc_alphabet
     |> Bigstring.to_string
   in
   Alcotest.(check string) "encoded test" input encoded
