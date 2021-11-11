@@ -7,12 +7,12 @@ let encode_short () =
   let encoded =
     "test" |> Bigstring.of_string |> B32.encode |> Bigstring.to_string
   in
-  Alcotest.(check string) "encoded test" "ORSXG5A" encoded
+  Alcotest.(check string) "encoded test" "orsxg5a" encoded
 ;;
 
 let decode_short () =
   let encoded =
-    "ORSXG5A" |> Bigstring.of_string |> B32.decode |> Bigstring.to_string
+    "orsxg5a" |> Bigstring.of_string |> B32.decode |> Bigstring.to_string
   in
   Alcotest.(check string) "encoded test" "test" encoded
 ;;

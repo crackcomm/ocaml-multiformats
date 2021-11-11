@@ -5,7 +5,7 @@
 (*                 Thomas Gazagnaire, Fabrice Le Fessant                  *)
 (*                                                                        *)
 (*  Copyright © 2011-2020 OCamlPro                                        *)
-(*  Copyright © 2020 Łukasz Kurowski                                      *)
+(*  Copyright © 2020-2021 Łukasz Kurowski                                 *)
 (*                                                                        *)
 (*  All rights reserved.  This file is distributed under the terms of     *)
 (*  the GNU Public License version 3.0.                                   *)
@@ -18,8 +18,6 @@
 (**************************************************************************)
 
 module Bigstring = Core_kernel.Bigstring
-
-let char_of_int5 n = char_of_int (if n < 26 then 65 + n else 50 + (n - 26))
 
 let int5_of_char n =
   match n with
@@ -59,32 +57,9 @@ let decode r =
 
 let get_int r i = Bigstring.get r i |> int_of_char
 
-let encode s =
-  let hash_length = Bigstring.length s in
-  let len = ((hash_length * 8) + 4) / 5 in
-  let r = Bigstring.create len in
-  for i = 0 to len - 1 do
-    let pos = i * 5 in
-    let byte = pos / 8 in
-    let bit = pos mod 8 in
-    if bit < 3
-    then (
-      let x = get_int s byte in
-      let c = (x lsr (3 - bit)) land 0x1f in
-      Bigstring.set r i (char_of_int5 c))
-    else (
-      let x = get_int s byte in
-      let y = if byte + 1 = hash_length then 0 else get_int s (byte + 1) in
-      let x = (x lsl 8) + y in
-      let c = (x lsr (11 - bit)) land 0x1f in
-      Bigstring.set r i (char_of_int5 c))
-  done;
-  r
-;;
-
-let char_of_int5 upper n =
-  char_of_int
-    (if n < 26 then (if upper then 65 else 97) + n else 50 + (n - 26))
+let char_of_int5 upper =
+  let off = if upper then 65 else 97 in
+  fun n -> char_of_int (if n < 26 then off + n else 50 + (n - 26))
 ;;
 
 let encode_case ~upper s =
@@ -110,5 +85,6 @@ let encode_case ~upper s =
   r
 ;;
 
+let encode = encode_case ~upper:false
 let encode_lower = encode_case ~upper:false
 let encode_upper = encode_case ~upper:true
