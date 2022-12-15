@@ -2,7 +2,7 @@ FROM ubuntu:latest
 ENV TZ=Europe/Warsaw
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y wget && \
+    apt-get install -y make git wget curl unzip cmake && \
     wget -O node.sh https://deb.nodesource.com/setup_16.x && \
     chmod +x node.sh && \
     ./node.sh && \
@@ -16,4 +16,4 @@ WORKDIR /esy
 COPY package.json /esy/package.json
 ENV ESY__BUILD_CONCURRENCY=24
 ENV ESY__FETCH_CONCURRENCY=24
-RUN esy && tar -zcvf _esy.tar.gz _esy && rm -rf _esy
+RUN esy # && tar -zcvf _esy.tar.gz _esy && rm -rf _esy
