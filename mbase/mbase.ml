@@ -85,7 +85,7 @@ let decode value =
 let decode_exn ?(here = [%here]) value =
   match decode value with
   | Ok v -> v
-  | Error e -> failwiths ~here "Mbase.decode" e sexp_of_error
+  | Error e -> failwiths ~here "Mbase.decode_exn" e sexp_of_error
 ;;
 
 (** [decode_info value] Decodes multibase prefixed value. Returns

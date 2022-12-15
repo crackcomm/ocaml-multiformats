@@ -19,13 +19,18 @@ let%expect_test "empty string" =
 ;;
 
 let%expect_test "base58" =
-  let input = "QmamnuntjR1Jmh8DZy3uMceJjpdqpE1Mx7W2KUisZr2A66" in
-  assert (Cid.is_v0_string input);
-  [%test_result: String.t] ~expect:input (encode_decode input);
-  let cid = Cid.of_string input |> unwrap in
-  assert (Cid.is_v0 cid);
-  print_s [%sexp (cid.mhash.kind : Mhash.Kind.t)];
-  [%expect {| SHA2'256 |}]
+  let inputs =
+    [ "QmamnuntjR1Jmh8DZy3uMceJjpdqpE1Mx7W2KUisZr2A66"
+    ; "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG"
+    ]
+  in
+  List.iter inputs ~f:(fun input ->
+      assert (Cid.is_v0_string input);
+      [%test_result: String.t] ~expect:input (encode_decode input);
+      let cid = Cid.of_string input |> unwrap in
+      assert (Cid.is_v0 cid);
+      print_s [%sexp (cid.mhash.kind : Mhash.Kind.t)];
+      [%expect {| SHA2'256 |}])
 ;;
 
 let%expect_test "base32" =
@@ -46,4 +51,14 @@ let%expect_test "head cid" =
   assert (Cid.is_v1 cid);
   print_s [%sexp (cid.mhash.kind : Mhash.Kind.t)];
   [%expect {| Keccak'256 |}]
+;;
+
+let%expect_test "identity functions" =
+  let input = "zHeadAt96Dkyhp32wJYjzv4NHm6jqSBKzVEPBK2pBVmQnvNgYuRx" in
+  let cid = Cid.of_string_exn input in
+  [%test_result: String.t]
+    ~expect:input
+    (Cid.to_raw_bigstring cid
+    |> Cid.of_raw_bigstring_exn
+    |> Cid.to_string ~base:`Base58btc)
 ;;

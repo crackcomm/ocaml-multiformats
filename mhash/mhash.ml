@@ -10,7 +10,7 @@ module Kind = Kind
 type t =
   { kind : Kind.t
   ; hash : Bigstring.t (** Shared part of multihash. *)
-  ; mhash : Bigstring.t
+  ; identity : Bigstring.t
   }
 [@@deriving sexp, compare, equal]
 
@@ -20,12 +20,12 @@ type error =
   ]
 [@@deriving sexp]
 
-(** [parse mhash] Parse multihash. *)
-let parse mhash : (t, [> error ]) result =
+(** [parse identity] Parse multihash. *)
+let parse identity : (t, [> error ]) result =
   let open Result in
-  Mcodec.parse mhash
+  Mcodec.parse identity
   >>= fun (codec, hash) ->
   Kind.of_codec codec
   |> Result.of_option ~error:(`Codec_not_hash codec)
-  >>| fun kind -> { kind; hash; mhash }
+  >>| fun kind -> { kind; hash; identity }
 ;;
