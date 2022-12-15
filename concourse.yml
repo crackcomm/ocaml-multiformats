@@ -1,0 +1,108 @@
+resource_types:
+- name: gerrit
+  type: docker-image
+  source:
+    repository: crackcomm/gerrit-resource
+    tag: latest
+
+- name: registry-image
+  type: docker-image
+  source:
+    repository: crackcomm/registry-image-resource
+    tag: latest
+
+resources:
+- name: image
+  type: registry-image
+  icon: docker
+  source:
+    registry_mirror:
+      host: ((registry.address))
+    repository: ((registry.address))/ocaml-multiformats-dev
+    insecure: true
+    tag: latest
+
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/crackcomm/ocaml-multiformats.git
+
+jobs:
+- name: build-image
+  max_in_flight: 1
+  plan:
+  - get: repo
+
+  - task: create-dockerfile
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: busybox
+      outputs:
+      - name: create-dockerfile
+      run:
+        path: /bin/sh
+        args:
+        - -cxe
+        - |
+          cat <<EOF >create-dockerfile/Dockerfile
+          FROM crackcomm/esy:latest
+          COPY package.json /esy/package.json
+          RUN esy && tar -zcvf _esy.tar.gz _esy && rm -rf _esy
+          EOF
+
+  - task: build-image
+    privileged: true
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: crackcomm/oci-build-task
+      inputs:
+      - name: create-dockerfile
+      - name: repo
+      outputs:
+      - name: image
+      caches:
+      - path: cache
+      params:
+        CONTEXT: repo
+        DOCKERFILE: create-dockerfile/Dockerfile
+      run:
+        path: build
+
+  - put: image
+    params:
+      image: image/image.tar
+
+- name: run-tests
+  max_in_flight: 1
+  plan:
+  - get: image
+    version: latest
+    trigger: true
+
+  - get: repo
+    version: every
+    trigger: true
+
+  - task: run
+    image: image
+    config:
+      platform: linux
+      inputs:
+      - name: repo
+      outputs:
+      - name: repo
+      run:
+        path: /bin/bash
+        args:
+        - -cxe
+        - |
+          tar -xf /esy/_esy.tar.gz
+          cd repo
+          esy
+          esy dune runtest
