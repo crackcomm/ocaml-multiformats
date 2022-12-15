@@ -1,14 +1,26 @@
 {
+  "esy": {
+    "buildsInSource": true
+  },
   "dependencies": {
-    "ocaml": "4.12.1",
-    "@opam/dune": "*",
-    "@opam/stdint": "0.7.0",
-    "@opam/digestif": "1.1.0",
+    "ocaml": "4.14.0",
+    "@opam/dune": "3.6.1",
+    "@opam/core": "v0.15.1",
     "@opam/ppx_deriving": "*",
-    "@opam/core_kernel": "v0.14.2"
+    "@opam/stdint": ">= 0.7.0",
+    "@opam/digestif": ">= 1.1.0"
   },
   "resolutions": {
-    "ocaml": "crackcomm/ocaml#bc0cb4d"
+    "ocaml": "esy-ocaml/ocaml#393bd25",
+    "@opam/cohttp": "mirage/ocaml-cohttp:cohttp.opam#5f9c0ae",
+    "@opam/cohttp-lwt": "mirage/ocaml-cohttp:cohttp-lwt.opam#5f9c0ae",
+    "@opam/cohttp-lwt-unix": "mirage/ocaml-cohttp:cohttp-lwt-unix.opam#5f9c0ae",
+    "@opam/http": {
+      "source": "mirage/ocaml-cohttp:http.opam#5f9c0ae",
+      "override": {
+        "build": "dune build -p http"
+      }
+    }
   },
   "devDependencies": {
     "@opam/lwt": "*",
@@ -16,8 +28,7 @@
     "@opam/csv-lwt": "*",
     "@opam/cohttp-lwt-unix": "*",
     "@opam/mustache": "*",
-    "@opam/alcotest": "*",
-    "@opam/ocamlformat": "*",
-    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#9b70079"
+    "@opam/ocamlformat": "0.21.0",
+    "@opam/ocaml-lsp-server": "1.11.1"
   }
 }
