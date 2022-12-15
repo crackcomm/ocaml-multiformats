@@ -2,7 +2,7 @@
    Copyright © 2016 Maxime Ransan <maxime.ransan@gmail.com>
    SPDX-License-Identifier: MIT *)
 
-open Core_kernel
+open Core
 
 exception Invalid
 exception Invalid_base58_character

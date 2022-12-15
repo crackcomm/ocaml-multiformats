@@ -1,7 +1,7 @@
 (* Copyright © 2020 Łukasz Kurowski. All rights reserved.
    SPDX-License-Identifier: MIT *)
 
-open Core_kernel
+open Core
 open Cohttp_lwt
 open Cohttp_lwt_unix
 open Lwt.Infix
@@ -109,7 +109,7 @@ let map_entry entry =
 
 let tmpl =
   Mustache.of_string
-    (In_channel.read_all "multiformats/mcodec/gentable/table.ml.mustache")
+    (In_channel.read_all "mcodec/gentable/table.ml.mustache")
 ;;
 
 let main () =
@@ -130,7 +130,7 @@ let main () =
     Mustache.render tmpl (`O [ "data", `A data; "tags", `A tags ])
     |> String.substr_replace_all ~pattern:"&apos;" ~with_:"\'"
   in
-  Out_channel.write_all ~data "multiformats/mcodec/table.ml"
+  Out_channel.write_all ~data "mcodec/table.ml"
 ;;
 
 let main () =

@@ -17,7 +17,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-module Bigstring = Core_kernel.Bigstring
+module Bigstring = Core.Bigstring
 
 let int5_of_char n =
   match n with

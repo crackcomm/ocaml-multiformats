@@ -1,5 +1,13 @@
 (library
  (name maddr)
+ (modules maddr)
  (public_name multiformats.maddr)
- (libraries base)
- (preprocess no_preprocessing))
+ (libraries core)
+ (preprocess (pps ppx_jane)))
+
+(library
+ (name maddr_test)
+ (modules maddr_test)
+ (libraries core multiformats.maddr)
+ (inline_tests)
+ (preprocess (pps ppx_jane)))

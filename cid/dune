@@ -1,6 +1,14 @@
 (library
  (name cid)
+ (modules cid)
  (public_name multiformats.cid)
- (libraries core_kernel multiformats.mbase multiformats.mcodec multiformats.mhash multiformats.varint)
+ (libraries core multiformats.mbase multiformats.mcodec multiformats.mhash multiformats.varint)
  (preprocess
-  (pps ppx_deriving.eq ppx_deriving.show)))
+  (pps ppx_jane)))
+
+(library
+ (name cid_test)
+ (modules cid_test)
+ (libraries core multiformats.cid)
+ (inline_tests)
+ (preprocess (pps ppx_jane)))

@@ -1,4 +1,12 @@
 (library
  (name b32)
+ (modules b32)
  (public_name multiformats.base32)
- (libraries core_kernel))
+ (libraries core))
+
+(library
+ (name b32_test)
+ (modules b32_test)
+ (libraries core multiformats.base32)
+ (inline_tests)
+ (preprocess (pps ppx_jane)))

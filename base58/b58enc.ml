@@ -23,7 +23,7 @@
   SOFTWARE.
 *)
 
-module Bigstring = Core_kernel.Bigstring
+module Bigstring = Core.Bigstring
 
 let zero = Char.unsafe_chr 0
 

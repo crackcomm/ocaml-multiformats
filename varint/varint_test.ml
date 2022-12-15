@@ -1,7 +1,7 @@
-(* Copyright © 2020 Łukasz Kurowski. All rights reserved.
+(* Copyright © 2020-2022 Łukasz Kurowski. All rights reserved.
    SPDX-License-Identifier: MIT *)
 
-open Core_kernel
+open Core
 open Varint
 open Stdint
 
@@ -34,7 +34,7 @@ let go_ref =
   ]
 ;;
 
-let encode_list () =
+let%test_unit "test data" =
   let encode_pair (num, enc) =
     let encoded =
       num
@@ -43,16 +43,7 @@ let encode_list () =
       |> B32.encode_lower
       |> Bigstring.to_string
     in
-    Alcotest.(check string)
-      (Printf.sprintf "equals encoded %Ld" num)
-      enc
-      encoded
+    [%test_result: String.t] ~expect:enc encoded
   in
   List.iter ~f:encode_pair go_ref
-;;
-
-(* Run it *)
-let () =
-  let open Alcotest in
-  run "varint" [ "encode", [ test_case "0x1" `Quick encode_list ] ]
 ;;

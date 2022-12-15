@@ -2,6 +2,8 @@
    Copyright © 2020 Łukasz Kurowski. All rights reserved.
    SPDX-License-Identifier: MIT *)
 
+type error = [ `VarintEOF ] [@@deriving sexp]
+
 module Make (I : Stdint.Int) = struct
   type t = I.t
 
@@ -14,7 +16,7 @@ module Make (I : Stdint.Int) = struct
   let e = of_int 0x80
   let shft = of_int 0x7F
 
-  module Bigstring = Core_kernel.Bigstring
+  module Bigstring = Core.Bigstring
 
   let write buf t =
     let n = ref t in

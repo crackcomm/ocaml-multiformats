@@ -1,4 +1,13 @@
 (library
  (name varint)
+ (modules varint)
  (public_name multiformats.varint)
- (libraries stdint core_kernel))
+ (libraries stdint core)
+ (preprocess (pps ppx_jane)))
+
+(library
+ (name varint_test)
+ (modules varint_test)
+ (libraries core stdint multiformats.varint multiformats.base32)
+ (inline_tests)
+ (preprocess (pps ppx_jane)))

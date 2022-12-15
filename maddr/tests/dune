@@ -1,3 +1,0 @@
-(tests
- (names maddr_test)
- (libraries alcotest multiformats.maddr))

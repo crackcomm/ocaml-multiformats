@@ -1,3 +1,0 @@
-(tests
- (names varint_test)
- (libraries stdint core_kernel alcotest multiformats.varint multiformats.base32))

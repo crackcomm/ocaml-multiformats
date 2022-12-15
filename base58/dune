@@ -1,4 +1,12 @@
 (library
  (name b58)
+ (modules b58 alphabet b58enc)
  (public_name multiformats.base58)
- (libraries core_kernel))
+ (libraries core))
+
+(library
+ (name b58_test)
+ (modules b58_test)
+ (libraries core multiformats.base58)
+ (inline_tests)
+ (preprocess (pps ppx_jane)))

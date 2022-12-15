@@ -1,7 +1,7 @@
 (* Copyright © 2020 Łukasz Kurowski. All rights reserved.
    SPDX-License-Identifier: MIT *)
 
-open Core_kernel
+open Core
 
 (** [encode alphabet data] encodes [data] using alphabet defined in RFC 4648. *)
 val encode : Bigstring.t -> Bigstring.t

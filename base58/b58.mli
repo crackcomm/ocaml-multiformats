@@ -56,7 +56,7 @@ val make_alphabet : string -> alphabet
 
 (** {2 Decoding/Encoding} *)
 
-open Core_kernel
+open Core
 
 (** [encode alphabet data] encodes [data] using [alphabet]. *)
 val encode : alphabet -> Bigstring.t -> Bigstring.t

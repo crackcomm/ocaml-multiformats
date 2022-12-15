@@ -1,6 +1,7 @@
 (library
  (name mhash)
  (public_name multiformats.mhash)
- (libraries core_kernel digestif multiformats.mcodec)
+ (libraries core digestif multiformats.mcodec)
+ (inline_tests)
  (preprocess
   (pps ppx_jane ppx_deriving.eq ppx_deriving.show)))

@@ -3,12 +3,11 @@
 
 (** Multiaddr implementation. *)
 
-open Base.Result
-
-type port = int
+open Core
+open Result
 
 let parse_port_exn v =
-  let v : port = Base.Int.of_string v in
+  let v = Int.of_string v in
   if v > 65536 then failwith "port is out of range" else v
 ;;
 
@@ -17,74 +16,90 @@ let parse_port v =
   | _ -> Error ("cannot parse " ^ v ^ " as port")
 ;;
 
-module Addr = struct
-  module Ipv4 = struct
-    type t = string
-  end
-
-  module Ipv6 = struct
-    type t = string
-  end
+(** Protocol *)
+module Proto = struct
+  type t =
+    [ `Http
+    | `Tcp of int
+    | `Ip4 of string
+    | `Ip6 of string
+    | `P2p of string
+    ]
+  [@@deriving bin_io, sexp, compare, equal]
 end
 
-module Multihash = struct
-  type t = string
-end
-
+(** Text multiaddr protocol parser. *)
 module Parser = struct
+  (*
+  let at_index addr ~index =
+    let proto =
+      match String.lsplit2 addr ~on:'/' with
+      | Some (_, proto) -> proto
+      | None -> addr
+    in
+    let split = index + String.length proto + 1 in
+    print_s [%sexp (index : int)];
+    print_s [%sexp (addr : String.t)];
+    split, proto
+  ;;
+  *)
   (** Returns element at given index. *)
   let at_index addr ~index =
     let split, proto =
-      match String.index_from_opt addr (index + 1) '/' with
+      match String.index_from addr (index + 1) '/' with
       | Some split ->
-        let proto = String.sub addr (index + 1) (split - index - 1) in
+        let proto =
+          String.sub addr ~pos:(index + 1) ~len:(split - index - 1)
+        in
         split, proto
       | None ->
         let split = String.length addr in
-        let proto = String.sub addr (index + 1) (split - index - 1) in
+        let proto =
+          String.sub addr ~pos:(index + 1) ~len:(split - index - 1)
+        in
         split, proto
     in
     split, proto
   ;;
+
+  type next = unit -> string
+  type parser0 = next -> Proto.t
+
+  let parse_proto_fn addr ~index =
+    let index, proto = at_index addr ~index in
+    let known_protocols : (string, parser0) List.Assoc.t =
+      [ ("http", fun _ -> `Http)
+      ; ("ip4", fun next -> `Ip4 (next ()))
+      ; ("ip6", fun next -> `Ip6 (next ()))
+      ; ("p2p", fun next -> `P2p (next ()))
+      ; ("tcp", fun next -> `Tcp (parse_port_exn (next ())))
+      ]
+    in
+    match List.Assoc.find ~equal:String.equal known_protocols proto with
+    | Some f -> Ok (index, f)
+    | None -> Error ("unrecognized protocol " ^ proto)
+  ;;
+
+  let parse_proto addr ~index =
+    match parse_proto_fn addr ~index with
+    | Ok (index, f) ->
+      let next_index = ref index in
+      let next () =
+        let index, v = at_index addr ~index in
+        next_index := index;
+        v
+      in
+      Ok (!next_index, f next)
+    | Error e -> Error e
+  ;;
 end
 
-(** Protocol *)
-module Proto = struct
-  type t =
-    | Http
-    | Tcp of port
-    | Ip4 of Addr.Ipv4.t
-    | Ip6 of Addr.Ipv6.t
-    | P2p of Multihash.t
+type t = Proto.t list [@@deriving bin_io, sexp, compare, equal]
 
-  (** ASCII Multiaddr protocol parser. *)
-  module Parser = struct
-    let parse_proto addr ~index =
-      let index, proto = Parser.at_index addr ~index in
-      match proto with
-      | "http" -> Ok (index, Http)
-      | "ip4" ->
-        let index, proto = Parser.at_index ~index addr in
-        Ok (index, Ip4 proto)
-      | "ip6" ->
-        let index, proto = Parser.at_index ~index addr in
-        Ok (index, Ip6 proto)
-      | "p2p" ->
-        let index, proto = Parser.at_index ~index addr in
-        Ok (index, P2p proto)
-      | "tcp" ->
-        let index, proto = Parser.at_index ~index addr in
-        parse_port proto >>| fun port -> index, Tcp port
-      | proto -> Error ("unrecognized protocol " ^ proto)
-    ;;
-  end
-end
-
-(** ASCII Multiaddr parser. *)
-let parse addr =
+let parse_ addr =
   let length = String.length addr in
   let rec parse acc index =
-    Proto.Parser.parse_proto addr ~index
+    Parser.parse_proto addr ~index
     >>= fun (index, proto) ->
     let acc = acc @ [ proto ] in
     if index = length then Ok acc else parse acc index
@@ -92,8 +107,13 @@ let parse addr =
   parse [] 0
 ;;
 
-let parse_exn addr =
-  match parse addr with
+let parse addr =
+  try parse_ addr with
+  | e -> Error (Exn.to_string_mach e)
+;;
+
+let parse_exn addr : t =
+  match parse_ addr with
   | Ok addr -> addr
   | Error err -> failwith err
 ;;
