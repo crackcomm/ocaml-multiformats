@@ -19,7 +19,7 @@
   (alcotest :with-test)
   (stdint
     (>= 0.7.0))
-  (core_kernel
+  (core
     (>= 0.14.2))
   (digestif
     (>= 1.1.0))
