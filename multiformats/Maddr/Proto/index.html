@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Proto (multiformats.Maddr.Proto)</title><link rel="stylesheet" href="../../../odoc.css"/><meta charset="utf-8"/><meta name="generator" content="odoc 2.1.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../../../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="../index.html">Up</a> – <a href="../../index.html">multiformats</a> &#x00BB; <a href="../index.html">Maddr</a> &#x00BB; Proto</nav><header class="odoc-preamble"><h1>Module <code><span>Maddr.Proto</span></code></h1><p>Protocol</p></header><div class="odoc-content"><div class="odoc-spec"><div class="spec type" id="type-t" class="anchored"><a href="#type-t" class="anchor"></a><code><span><span class="keyword">type</span> t</span><span> = </span><span>[ </span></code><table><tr id="type-t.Http" class="anchored"><td class="def constructor"><a href="#type-t.Http" class="anchor"></a><code><span>| </span></code><code><span>`Http</span></code></td></tr><tr id="type-t.Tcp" class="anchored"><td class="def constructor"><a href="#type-t.Tcp" class="anchor"></a><code><span>| </span></code><code><span>`Tcp <span class="keyword">of</span> int</span></code></td></tr><tr id="type-t.Ip4" class="anchored"><td class="def constructor"><a href="#type-t.Ip4" class="anchor"></a><code><span>| </span></code><code><span>`Ip4 <span class="keyword">of</span> string</span></code></td></tr><tr id="type-t.Ip6" class="anchored"><td class="def constructor"><a href="#type-t.Ip6" class="anchor"></a><code><span>| </span></code><code><span>`Ip6 <span class="keyword">of</span> string</span></code></td></tr><tr id="type-t.P2p" class="anchored"><td class="def constructor"><a href="#type-t.P2p" class="anchor"></a><code><span>| </span></code><code><span>`P2p <span class="keyword">of</span> string</span></code></td></tr></table><code><span> ]</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_shape_t" class="anchored"><a href="#val-bin_shape_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_shape_t : <span class="xref-unresolved">Core</span>.Bin_prot.Shape.t</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_size_t" class="anchored"><a href="#val-bin_size_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_size_t : 
+  <span><span>[&gt; <span>`Ip4 of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span> <span class="arrow">&#45;&gt;</span></span>
+  int</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_write_t" class="anchored"><a href="#val-bin_write_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_write_t : 
+  <span><span class="xref-unresolved">Bin_prot</span>.Common.buf <span class="arrow">&#45;&gt;</span></span>
+  <span>pos:<span class="xref-unresolved">Bin_prot</span>.Common.pos <span class="arrow">&#45;&gt;</span></span>
+  <span><span>[&lt; `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span> <span class="arrow">&#45;&gt;</span></span>
+  <span class="xref-unresolved">Bin_prot</span>.Common.pos</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_writer_t" class="anchored"><a href="#val-bin_writer_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_writer_t : 
+  <span><span>[&lt; `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> Ip4 Ip6 P2p Tcp ]</span>
+    <span class="xref-unresolved">Core</span>.Bin_prot.Type_class.writer</span></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-__bin_read_t__" class="anchored"><a href="#val-__bin_read_t__" class="anchor"></a><code><span><span class="keyword">val</span> __bin_read_t__ : 
+  <span><span class="xref-unresolved">Bin_prot</span>.Common.buf <span class="arrow">&#45;&gt;</span></span>
+  <span>pos_ref:<span class="xref-unresolved">Bin_prot</span>.Common.pos_ref <span class="arrow">&#45;&gt;</span></span>
+  <span>int <span class="arrow">&#45;&gt;</span></span>
+  <span>[&gt; `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_read_t" class="anchored"><a href="#val-bin_read_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_read_t : 
+  <span><span class="xref-unresolved">Bin_prot</span>.Common.buf <span class="arrow">&#45;&gt;</span></span>
+  <span>pos_ref:<span class="xref-unresolved">Bin_prot</span>.Common.pos_ref <span class="arrow">&#45;&gt;</span></span>
+  <span>[&gt; `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_reader_t" class="anchored"><a href="#val-bin_reader_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_reader_t : 
+  <span><span>[&gt; `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span>
+    <span class="xref-unresolved">Core</span>.Bin_prot.Type_class.reader</span></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-bin_t" class="anchored"><a href="#val-bin_t" class="anchor"></a><code><span><span class="keyword">val</span> bin_t : 
+  <span><span>[ `Http
+  <span><span>| `Ip4</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Ip6</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `P2p</span> of <span class="xref-unresolved">Core__</span>.Import.string</span>
+  <span><span>| `Tcp</span> of <span class="xref-unresolved">Core__</span>.Import.int</span> ]</span>
+    <span class="xref-unresolved">Core</span>.Bin_prot.Type_class.t</span></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-__t_of_sexp__" class="anchored"><a href="#val-__t_of_sexp__" class="anchor"></a><code><span><span class="keyword">val</span> __t_of_sexp__ : <span><span class="xref-unresolved">Sexplib0</span>.Sexp.t <span class="arrow">&#45;&gt;</span></span> <a href="#type-t">t</a></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-t_of_sexp" class="anchored"><a href="#val-t_of_sexp" class="anchor"></a><code><span><span class="keyword">val</span> t_of_sexp : <span><span class="xref-unresolved">Sexplib0</span>.Sexp.t <span class="arrow">&#45;&gt;</span></span> <a href="#type-t">t</a></span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-sexp_of_t" class="anchored"><a href="#val-sexp_of_t" class="anchor"></a><code><span><span class="keyword">val</span> sexp_of_t : <span><a href="#type-t">t</a> <span class="arrow">&#45;&gt;</span></span> <span class="xref-unresolved">Sexplib0</span>.Sexp.t</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-compare" class="anchored"><a href="#val-compare" class="anchor"></a><code><span><span class="keyword">val</span> compare : <span><a href="#type-t">t</a> <span class="arrow">&#45;&gt;</span></span> <span><a href="#type-t">t</a> <span class="arrow">&#45;&gt;</span></span> int</span></code></div></div><div class="odoc-spec"><div class="spec value" id="val-equal" class="anchored"><a href="#val-equal" class="anchor"></a><code><span><span class="keyword">val</span> equal : <span><a href="#type-t">t</a> <span class="arrow">&#45;&gt;</span></span> <span><a href="#type-t">t</a> <span class="arrow">&#45;&gt;</span></span> bool</span></code></div></div></div></body></html>
